@@ -1,0 +1,762 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package CMS;
+
+import CMS.ManageOrder.Order;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Lenovo
+ */
+public class ViewAssignedOrder extends javax.swing.JFrame {
+
+    /**
+     * Creates new form ViewAssignedOrder
+     */
+    public ViewAssignedOrder() {
+        initComponents();
+    }
+    
+    public ViewAssignedOrder(String orderID) {
+        jTextFieldOrderID.setText(orderID);
+    }
+    
+    class viewAssignedOrder {
+        String orID;
+        String delvID;
+        String itemName;
+        String packType;
+        String fromName;
+        String fromAddress;
+        String fromPhone;
+        String toName;
+        String toAddress;
+        String toPhone;
+        String orderDate;
+        String weight;
+        String status;
+        
+        //1,2,Medicine,Medicine,Tej,Chitwan,989,Pradip,Pokhara,9876565,01-08-2021,5.5,Pending
+
+        public viewAssignedOrder(String orID, String delvID, String itemName, String packType, String fromName, String fromAddress, String fromPhone, String toName, String toAddress, String toPhone, String orderDate, String weight, String status) {
+            this.orID = orID;
+            this.delvID = delvID;
+            this.itemName = itemName;
+            this.packType = packType;
+            this.fromName = fromName;
+            this.fromAddress = fromAddress;
+            this.fromPhone = fromPhone;
+            this.toName = toName;
+            this.toAddress = toAddress;
+            this.toPhone = toPhone;
+            this.orderDate = orderDate;
+            this.weight = weight;
+            this.status = status;
+        }
+
+        
+              
+    }
+    
+    public void addRow() {
+        DefaultTableModel tableModel = (DefaultTableModel) this.jTableOrderMngt.getModel();
+        ArrayList<viewAssignedOrder> aoList = AssignedOrderList();
+        Object rowData[] = new Object[13];
+        for (int i=0;i<aoList.size();i++) {
+            //2,Other,Food,Kells,Ohio,677000,Justin,Texas,677999,18-08-2021,5.5
+            //1,2,Medicine,Medicine,Tej,Chitwan,989,Pradip,Pokhara,9876565,01-08-2021,5.5,Pending
+            
+            rowData[0] = aoList.get(i).orID;
+            rowData[1] = aoList.get(i).delvID;
+            rowData[2] = aoList.get(i).itemName;
+            rowData[3] = aoList.get(i).packType;
+            rowData[4] = aoList.get(i).fromName;
+            rowData[5] = aoList.get(i).fromAddress;
+            rowData[6] = aoList.get(i).fromPhone;
+            rowData[7] = aoList.get(i).toName;
+            rowData[8] = aoList.get(i).toAddress;
+            rowData[9] = aoList.get(i).toPhone;
+            rowData[10] = aoList.get(i).orderDate;
+            rowData[11] = aoList.get(i).weight;
+            rowData[12] = aoList.get(i).status;
+            tableModel.addRow(rowData);
+        }
+    }
+
+    public ArrayList<viewAssignedOrder> AssignedOrderList() {
+        String fileLine;
+        ArrayList<viewAssignedOrder> aoList = new ArrayList<>();
+        File orderFile = new File("orderAssign.txt");
+        if(orderFile.exists()) {
+            try {
+                FileReader fr = new FileReader(orderFile);
+                BufferedReader br = new BufferedReader(fr);
+                while ((fileLine=br.readLine())!=null) {
+                    StringTokenizer st = new StringTokenizer(fileLine, ",");
+                    String id = st.nextToken();
+                    String id1 = st.nextToken();
+                    String delvID = jTextFieldDelvID.getText();
+                    if(id1.equals(delvID)) {
+                        viewAssignedOrder ao = new viewAssignedOrder(id,id1,st.nextToken(),st.nextToken(), st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken());
+                        aoList.add(ao);
+                    } 
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ManageOrder.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ManageOrder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return aoList;
+        } else {
+            return null;
+        }
+
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabelTitle1 = new javax.swing.JLabel();
+        jScrollPane_aoTable = new javax.swing.JScrollPane();
+        jTableOrderMngt = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldOrderID = new javax.swing.JTextField();
+        jTextFieldItemName = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldFromAddress = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextFieldToAddress = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBoxDelvStatus = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldDelvID = new javax.swing.JTextField();
+        jButtonUpdate = new javax.swing.JButton();
+        jButtonDeleteOrder = new javax.swing.JButton();
+        jButtonFinish = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
+
+        jLabelTitle1.setFont(new java.awt.Font("Poppins", 1, 30)); // NOI18N
+        jLabelTitle1.setForeground(new java.awt.Color(0, 0, 255));
+        jLabelTitle1.setText("Assigned Orders");
+
+        jTableOrderMngt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Order Id", "Staff ID", "Package Type", "Item", "Sender Name", "Sender Address", "Sender Phone", "Receiver Name", "Receiver Address", "Receiver Phone", "Order Date", "Weight(Lbs)", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableOrderMngt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableOrderMngtMouseClicked(evt);
+            }
+        });
+        jScrollPane_aoTable.setViewportView(jTableOrderMngt);
+
+        jPanel3.setBackground(new java.awt.Color(204, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Poppins", 0, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel1.setText("Order ID:");
+
+        jTextFieldOrderID.setEditable(false);
+        jTextFieldOrderID.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldOrderID.setFont(new java.awt.Font("Poppins", 1, 13)); // NOI18N
+        jTextFieldOrderID.setForeground(new java.awt.Color(0, 0, 153));
+        jTextFieldOrderID.setBorder(null);
+        jTextFieldOrderID.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextFieldOrderID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldOrderIDActionPerformed(evt);
+            }
+        });
+
+        jTextFieldItemName.setEditable(false);
+        jTextFieldItemName.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldItemName.setFont(new java.awt.Font("Poppins", 1, 13)); // NOI18N
+        jTextFieldItemName.setForeground(new java.awt.Color(0, 0, 153));
+        jTextFieldItemName.setBorder(null);
+        jTextFieldItemName.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextFieldItemName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldItemNameActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Poppins", 0, 13)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel6.setText("Item Name:");
+
+        jTextFieldFromAddress.setEditable(false);
+        jTextFieldFromAddress.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldFromAddress.setFont(new java.awt.Font("Poppins", 1, 13)); // NOI18N
+        jTextFieldFromAddress.setForeground(new java.awt.Color(0, 0, 153));
+        jTextFieldFromAddress.setBorder(null);
+        jTextFieldFromAddress.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextFieldFromAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFromAddressActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Poppins", 0, 13)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel7.setText("Sender's Address:");
+
+        jLabel8.setFont(new java.awt.Font("Poppins", 0, 13)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel8.setText("Receiver's Address:");
+
+        jTextFieldToAddress.setEditable(false);
+        jTextFieldToAddress.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldToAddress.setFont(new java.awt.Font("Poppins", 1, 13)); // NOI18N
+        jTextFieldToAddress.setForeground(new java.awt.Color(0, 0, 153));
+        jTextFieldToAddress.setBorder(null);
+        jTextFieldToAddress.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextFieldToAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldToAddressActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldFromAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldToAddress)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldToAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldFromAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldItemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(204, 255, 255));
+
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 13)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel2.setText("Delivery Date");
+
+        jComboBoxDelvStatus.setBackground(new java.awt.Color(0, 51, 153));
+        jComboBoxDelvStatus.setFont(new java.awt.Font("Poppins", 2, 14)); // NOI18N
+        jComboBoxDelvStatus.setForeground(new java.awt.Color(255, 255, 255));
+        jComboBoxDelvStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pending", "On the way", "Delivered" }));
+        jComboBoxDelvStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDelvStatusActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 13)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel3.setText("Delivery Status");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(138, 138, 138)
+                .addComponent(jLabel2)
+                .addGap(40, 40, 40)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(106, 106, 106)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxDelvStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(183, 183, 183))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBoxDelvStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel2)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jTextFieldDelvID.setEditable(false);
+        jTextFieldDelvID.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldDelvID.setFont(new java.awt.Font("Poppins", 1, 13)); // NOI18N
+        jTextFieldDelvID.setForeground(new java.awt.Color(0, 0, 153));
+        jTextFieldDelvID.setBorder(null);
+        jTextFieldDelvID.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextFieldDelvID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDelvIDActionPerformed(evt);
+            }
+        });
+
+        jButtonUpdate.setBackground(new java.awt.Color(0, 102, 51));
+        jButtonUpdate.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jButtonUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonUpdate.setText("Update");
+        jButtonUpdate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButtonUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonUpdateMouseClicked(evt);
+            }
+        });
+        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateActionPerformed(evt);
+            }
+        });
+
+        jButtonDeleteOrder.setBackground(new java.awt.Color(255, 0, 51));
+        jButtonDeleteOrder.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jButtonDeleteOrder.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonDeleteOrder.setText("Delete Order");
+        jButtonDeleteOrder.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButtonDeleteOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonDeleteOrderMouseClicked(evt);
+            }
+        });
+        jButtonDeleteOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteOrderActionPerformed(evt);
+            }
+        });
+
+        jButtonFinish.setBackground(new java.awt.Color(0, 51, 204));
+        jButtonFinish.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jButtonFinish.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonFinish.setText("Finish");
+        jButtonFinish.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButtonFinish.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonFinishMouseClicked(evt);
+            }
+        });
+        jButtonFinish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFinishActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabelTitle1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldDelvID, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(115, 115, 115)
+                                .addComponent(jButtonDeleteOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane_aoTable)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabelTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTextFieldDelvID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane_aoTable, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDeleteOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jTableOrderMngtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableOrderMngtMouseClicked
+        DefaultTableModel tabModel = (DefaultTableModel) this.jTableOrderMngt.getModel();
+            String Id = tabModel.getValueAt(jTableOrderMngt.getSelectedRow(),0).toString();
+            String delvID = tabModel.getValueAt(jTableOrderMngt.getSelectedRow(),1).toString();
+            String status = tabModel.getValueAt(jTableOrderMngt.getSelectedRow(),11).toString();
+            String itemName = tabModel.getValueAt(jTableOrderMngt.getSelectedRow(),3).toString();
+            String fromAddress = tabModel.getValueAt(jTableOrderMngt.getSelectedRow(),5).toString();
+            String toAddress = tabModel.getValueAt(jTableOrderMngt.getSelectedRow(),8).toString();
+            switch (status){
+                case "Pending":jComboBoxDelvStatus.setSelectedIndex(0);break;
+                case "On The Way":jComboBoxDelvStatus.setSelectedIndex(1);break;
+                case "Delivered":jComboBoxDelvStatus.setSelectedIndex(2);break;
+            }
+            this.jTextFieldOrderID.setText(Id);
+            this.jTextFieldDelvID.setText(delvID);
+            this.jTextFieldItemName.setText(itemName);
+            this.jTextFieldFromAddress.setText(fromAddress);
+            this.jTextFieldToAddress.setText(toAddress);
+    }//GEN-LAST:event_jTableOrderMngtMouseClicked
+
+    private void jTextFieldOrderIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldOrderIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldOrderIDActionPerformed
+
+    private void jTextFieldItemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldItemNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldItemNameActionPerformed
+
+    private void jTextFieldFromAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFromAddressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFromAddressActionPerformed
+
+    private void jTextFieldToAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldToAddressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldToAddressActionPerformed
+
+    private void jComboBoxDelvStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDelvStatusActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jComboBoxDelvStatusActionPerformed
+
+    private void jTextFieldDelvIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDelvIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDelvIDActionPerformed
+
+    private void jButtonUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonUpdateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonUpdateMouseClicked
+
+    private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
+        FileReader fr = null;
+        StringTokenizer st;
+        String s;
+        try {
+            File aOrdFile = new File("orderAssign.txt");
+            File temp = new File("tempaOrd.txt");
+            fr = new FileReader(aOrdFile);
+            FileWriter fw = new FileWriter(temp);
+            BufferedReader br = new BufferedReader(fr);
+            BufferedWriter bw = new BufferedWriter(fw);
+            while((s=br.readLine())!=null) {
+                st = new StringTokenizer(s,",");
+                String orID = st.nextToken();
+                String delvID = st.nextToken();
+                String itemName = st.nextToken();
+                String packType = st.nextToken();
+                String fromName = st.nextToken();
+                String fromAddress = st.nextToken();
+                String fromPhone = st.nextToken();
+                String toName = st.nextToken();
+                String toAddress = st.nextToken();
+                String toPhone = st.nextToken();
+                String orderDate = st.nextToken();
+                String weight = st.nextToken();
+                String status = st.nextToken();
+                
+                if(orID.equals(jTextFieldOrderID.getText())) {
+                    status = (String) this.jComboBoxDelvStatus.getSelectedItem();
+                    bw.write(orID+","+delvID+","+itemName+","+packType+","+fromName+","+fromAddress+","+fromPhone+","+toName+","+toAddress+","+toPhone+","+orderDate+","+weight+","+status);
+                    bw.newLine();
+                    continue;
+                }
+                bw.write(s);
+                bw.newLine();
+            }
+            bw.flush();
+            bw.close();
+            br.close();
+            JOptionPane.showMessageDialog(this, "Order Status Updated!");
+            aOrdFile.delete();
+            temp.renameTo(aOrdFile); 
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManageOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ManageOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try{
+            fr.close();
+            } catch(IOException ex) {
+            Logger.getLogger(ManageOrder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButtonUpdateActionPerformed
+
+    private void jButtonDeleteOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDeleteOrderMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDeleteOrderMouseClicked
+
+    private void jButtonDeleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteOrderActionPerformed
+        try{
+            FileReader fr;
+            StringTokenizer st;
+            String s;
+            File aOrdFile = new File("orderAssign.txt");
+            File temp = new File("tempaOrd.txt");
+            fr = new FileReader(aOrdFile);
+            FileWriter fw = new FileWriter(temp);
+            BufferedReader br = new BufferedReader(fr);
+            BufferedWriter bw = new BufferedWriter(fw); 
+            while((s=br.readLine())!=null) {
+                st = new StringTokenizer(s,",");
+                if(st.nextToken().equals(jTextFieldDelvID.getText())) {
+                    continue;
+                }
+                bw.write(s);
+                bw.newLine();
+            }
+            bw.flush();
+            bw.close();
+            br.close();
+            aOrdFile.delete();
+            temp.renameTo(aOrdFile);
+            JOptionPane.showMessageDialog(this, "Order Deleted Successfully!");
+        }   catch (FileNotFoundException ex) {
+            Logger.getLogger(ManageOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ManageOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+
+    }//GEN-LAST:event_jButtonDeleteOrderActionPerformed
+
+    private void jButtonFinishMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFinishMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonFinishMouseClicked
+
+    private void jButtonFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFinishActionPerformed
+        // TODO add your handling code here:
+        FileReader fr = null;
+        try {
+            String S;
+            StringTokenizer st;
+            File ordAFile = new File("orderAssign.txt");
+            fr = new FileReader(ordAFile);
+            BufferedReader br = new BufferedReader(fr);
+            if(ordAFile.exists())
+            {
+                while((S=br.readLine())!=null)
+                {
+                    st = new StringTokenizer(S,",");
+                    String orID = st.nextToken();
+                    String dStaffID = st.nextToken();
+                    String packType= st.nextToken();
+                    String itemName = st.nextToken();
+                    String fromName = st.nextToken();
+                    String fromAddress = st.nextToken();
+                    String fromPhone = st.nextToken();
+                    String toName = st.nextToken();
+                    String toAddress = st.nextToken();
+                    String toPhone = st.nextToken();
+                    String orderDate = st.nextToken();
+                    String weight = st.nextToken();
+                    String status = st.nextToken();
+                    //bw.write(orID+","+dStaffID+","+packType+","+itemName+","+fromName+","+fromAddress+","+fromPhone+","+toName+","+toAddress+","+toPhone+","+orderDate+","+weight+","+status);
+                    
+                    if (orID.equals(jTextFieldOrderID.getText()))
+                    {
+                        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                        String dDate = df.format(jDateChooser1.getDate());
+                        File reportFile = new File("report.txt");
+                        if(!reportFile.exists())
+                        {
+                            reportFile.createNewFile();
+                            FileWriter fw = new FileWriter(reportFile,true);
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            bw.write(orID+","+dStaffID+","+packType+","+itemName+","+fromName+","+fromAddress+","+fromPhone+","+toName+","+toAddress+","+toPhone+","+orderDate+","+weight+","+status+","+dDate);
+                            bw.newLine();
+                            bw.flush();
+                            bw.close();
+                            JOptionPane.showMessageDialog(this, "Order Status Updated Successfully!");
+                            
+                    
+                        }
+                 
+                        else
+                        {
+                            FileWriter fw = new FileWriter(reportFile,true);
+                            BufferedWriter bw = new BufferedWriter(fw);
+                            bw.write(orID+","+dStaffID+","+packType+","+itemName+","+fromName+","+fromAddress+","+fromPhone+","+toName+","+toAddress+","+toPhone+","+orderDate+","+weight+","+status+","+dDate);
+                            bw.newLine();
+                            bw.flush();
+                            bw.close();
+                            JOptionPane.showMessageDialog(this, "Order Status Updated Successfully!");
+                        }
+                    
+                    
+                    }
+                }
+                
+            }
+            else
+            {
+                System.out.println("File not found");
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ViewAssignedOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ViewAssignedOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ViewAssignedOrder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButtonFinishActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ViewAssignedOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ViewAssignedOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ViewAssignedOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ViewAssignedOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ViewAssignedOrder().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDeleteOrder;
+    private javax.swing.JButton jButtonFinish;
+    private javax.swing.JButton jButtonUpdate;
+    private javax.swing.JComboBox<String> jComboBoxDelvStatus;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabelTitle1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane_aoTable;
+    private javax.swing.JTable jTableOrderMngt;
+    public static javax.swing.JTextField jTextFieldDelvID;
+    private javax.swing.JTextField jTextFieldFromAddress;
+    private javax.swing.JTextField jTextFieldItemName;
+    private javax.swing.JTextField jTextFieldOrderID;
+    private javax.swing.JTextField jTextFieldToAddress;
+    // End of variables declaration//GEN-END:variables
+}

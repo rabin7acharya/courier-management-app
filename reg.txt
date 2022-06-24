@@ -1,0 +1,2 @@
+1,rabin,acharya,87998u,Male,2021-08-16,Nepal,City,89090,rab@,89798,Managerial Staff,cms1234
+2,Dave,Lee,797689,Male,2021-09-06,Contry,City,678,dave2d,798,Delivery Staff,cms1234
